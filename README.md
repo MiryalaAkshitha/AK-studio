@@ -6,7 +6,7 @@ A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported t
 
 ## What you should do — IMPORTANT
 
-**Read `apes-studio-website-revamp/project/Apes Studio.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+**Read `Ak studio-studio-website-revamp/project/Ak studio Studio.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
 
 **If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
 
@@ -18,5 +18,5 @@ The design medium is **HTML/CSS/JS** — these are prototypes, not production co
 
 ## Bundle contents
 
-- `apes-studio-website-revamp/README.md` — this file
-- `apes-studio-website-revamp/project/` — the `Apes Studio website revamp` project files (HTML prototypes, assets, components)
+- `Ak studio-studio-website-revamp/README.md` — this file
+- `Ak studio-studio-website-revamp/project/` — the `Ak studio Studio website revamp` project files (HTML prototypes, assets, components)
