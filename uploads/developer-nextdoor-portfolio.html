@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>developer.nextdoor — Websites for the shop down the street</title>
+<meta name="description" content="Fast, affordable websites for small businesses. Built and delivered in days.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0F1A2B;
+    --bg-panel: #16233B;
+    --bg-panel-2: #1C2C48;
+    --mustard: #F2B705;
+    --mustard-dim: #C99A0B;
+    --open-green: #59B98A;
+    --paper: #F3EEDF;
+    --paper-dim: #C7C2B4;
+    --muted: #8B96AC;
+    --hairline: #2A3B57;
+    --display: 'Fraunces', serif;
+    --body: 'IBM Plex Sans', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--paper);
+    font-family:var(--body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:var(--mono);
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    font-size:12px;
+    color:var(--mustard);
+  }
+  h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;color:var(--paper);}
+  p{color:var(--paper-dim);}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(15,26,43,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1120px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .brand-mark{width:30px;height:30px;flex:none;}
+  .brand-word{font-family:var(--display);font-weight:700;font-size:18px;color:var(--paper);}
+  .brand-word span{color:var(--mustard);}
+  nav.links{display:flex;gap:28px;font-size:14px;}
+  nav.links a{text-decoration:none;color:var(--paper-dim);transition:color .15s;}
+  nav.links a:hover{color:var(--mustard);}
+  .nav-cta{
+    font-size:13px;font-weight:600;padding:9px 16px;border-radius:8px;
+    background:var(--mustard);color:#1A1300;text-decoration:none;
+    white-space:nowrap;
+  }
+  .menu-btn{display:none;background:none;border:1px solid var(--hairline);color:var(--paper);border-radius:8px;padding:8px 10px;font-size:14px;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:76px 0 64px;position:relative;overflow:hidden;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;}
+  .sign{
+    background:var(--bg-panel);
+    border:1px solid var(--hairline);
+    border-radius:14px;
+    padding:28px 24px 24px;
+    position:relative;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .sign-chain{width:2px;height:26px;background:var(--hairline);margin:0 auto 0;}
+  .sign-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .open-tag{
+    font-family:var(--mono);font-size:11px;letter-spacing:0.08em;
+    color:var(--open-green);border:1px solid var(--open-green);
+    padding:3px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;
+  }
+  .open-dot{width:6px;height:6px;border-radius:50%;background:var(--open-green);
+    box-shadow:0 0 0 0 rgba(89,185,138,.6);animation:pulse 2.2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(89,185,138,.55);}
+    70%{box-shadow:0 0 0 8px rgba(89,185,138,0);}
+    100%{box-shadow:0 0 0 0 rgba(89,185,138,0);}
+  }
+  .sign h1{font-size:clamp(30px,4.2vw,44px);line-height:1.08;letter-spacing:-0.01em;}
+  .sign h1 em{font-style:normal;color:var(--mustard);}
+  .hero p.lead{margin-top:16px;font-size:16.5px;max-width:46ch;}
+  .hero-ctas{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--body);font-weight:600;font-size:14.5px;
+    padding:12px 20px;border-radius:9px;text-decoration:none;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary{background:var(--mustard);color:#1A1300;}
+  .btn-primary:hover{background:#ffce33;}
+  .btn-ghost{border:1px solid var(--hairline);color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--mustard-dim);color:var(--mustard);}
+
+  .stat-strip{
+    margin-top:30px;display:flex;gap:0;border-top:1px solid var(--hairline);padding-top:20px;
+  }
+  .stat{flex:1;padding-right:18px;}
+  .stat b{font-family:var(--display);font-size:26px;color:var(--paper);display:block;}
+  .stat span{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;}
+
+  /* hero illustration */
+  .street{position:relative;height:100%;min-height:320px;}
+  .street svg{width:100%;height:auto;}
+
+  /* ---------- section shell ---------- */
+  section{padding:72px 0;border-top:1px solid var(--hairline);}
+  .section-head{max-width:640px;margin-bottom:44px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,36px);margin-top:8px;letter-spacing:-0.01em;}
+  .section-head p{margin-top:12px;font-size:15.5px;}
+
+  /* ---------- work / case study ---------- */
+  .case{
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:0;
+    background:var(--bg-panel);border:1px solid var(--hairline);border-radius:14px;overflow:hidden;
+  }
+  .case-visual{background:#0B1420;padding:26px;display:flex;flex-direction:column;gap:10px;}
+  .browser-bar{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+  .browser-dot{width:9px;height:9px;border-radius:50%;background:var(--hairline);}
+  .browser-url{
+    font-family:var(--mono);font-size:11px;color:var(--muted);
+    background:var(--bg-panel);border:1px solid var(--hairline);border-radius:6px;
+    padding:5px 10px;margin-left:6px;flex:1;
+  }
+  .mock-block{border-radius:6px;background:var(--bg-panel-2);}
+  .mock-nav{height:34px;display:flex;align-items:center;gap:10px;padding:0 12px;}
+  .mock-pill{height:8px;width:38px;border-radius:4px;background:var(--hairline);}
+  .mock-hero{height:120px;background:linear-gradient(135deg, rgba(242,183,5,0.18), rgba(28,44,72,0.4));display:flex;flex-direction:column;justify-content:center;padding:16px;gap:8px;}
+  .mock-line{height:10px;border-radius:4px;background:rgba(243,238,223,0.16);}
+  .mock-line.short{width:40%;}
+  .mock-line.med{width:65%;}
+  .mock-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .mock-card{height:52px;border-radius:6px;background:var(--bg-panel-2);}
+
+  .case-copy{padding:32px 30px;display:flex;flex-direction:column;justify-content:center;}
+  .case-copy .eyebrow{margin-bottom:10px;}
+  .case-copy h3{font-size:26px;}
+  .case-copy p{margin-top:12px;font-size:14.5px;}
+  .case-tags{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 20px;}
+  .tag{
+    font-family:var(--mono);font-size:11px;color:var(--muted);
+    border:1px solid var(--hairline);padding:4px 9px;border-radius:20px;
+  }
+  .case-link{
+    font-size:14px;font-weight:600;color:var(--mustard);text-decoration:none;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .case-link:hover{text-decoration:underline;}
+
+  /* ---------- services (hanging signs) ---------- */
+  .rail{height:2px;background:var(--hairline);margin-bottom:0;position:relative;}
+  .services-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;
+  }
+  .service-card{
+    background:var(--bg-panel);border:1px solid var(--hairline);border-radius:12px;
+    padding:24px 22px;position:relative;
+  }
+  .service-card::before{
+    content:"";position:absolute;top:-18px;left:28px;width:2px;height:18px;background:var(--hairline);
+  }
+  .service-icon{
+    width:38px;height:38px;border-radius:8px;background:rgba(242,183,5,0.12);
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+  }
+  .service-card h3{font-size:19px;margin-bottom:8px;}
+  .service-card p{font-size:14px;}
+  .service-price{
+    margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--mustard);
+    border-top:1px dashed var(--hairline);padding-top:12px;
+  }
+
+  /* ---------- process ---------- */
+  .process{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:36px;position:relative;}
+  .process::before{
+    content:"";position:absolute;top:19px;left:6%;right:6%;height:1px;background:var(--hairline);
+  }
+  .step{padding-right:20px;position:relative;}
+  .step-num{
+    font-family:var(--mono);font-size:12px;color:#0F1A2B;background:var(--mustard);
+    width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    margin-bottom:16px;position:relative;z-index:2;font-weight:600;
+  }
+  .step h3{font-size:16.5px;margin-bottom:6px;}
+  .step p{font-size:13.5px;}
+
+  /* ---------- value / trust ---------- */
+  .value-box{
+    background:var(--bg-panel);border:1px solid var(--hairline);border-radius:14px;
+    padding:44px;
+  }
+  .value-copy{max-width:640px;}
+  .value-copy h2{font-size:clamp(24px,3.2vw,32px);margin-top:8px;letter-spacing:-0.01em;}
+  .value-copy p{margin-top:14px;font-size:15.5px;}
+  .value-points{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+    margin-top:36px;padding-top:32px;border-top:1px solid var(--hairline);
+  }
+  .value-point{display:flex;gap:12px;align-items:flex-start;}
+  .value-icon{
+    width:28px;height:28px;flex:none;border-radius:7px;background:rgba(242,183,5,0.12);
+    display:flex;align-items:center;justify-content:center;margin-top:2px;
+  }
+  .value-point h3{font-size:15.5px;margin-bottom:4px;}
+  .value-point p{font-size:13.5px;}
+  .value-cta{margin-top:32px;}
+
+  /* ---------- contact ---------- */
+  .contact-box{
+    background:var(--bg-panel);border:1px solid var(--hairline);border-radius:14px;
+    padding:44px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:36px;align-items:center;
+  }
+  .contact-box h2{font-size:clamp(24px,3vw,32px);}
+  .contact-methods{display:flex;flex-direction:column;gap:14px;}
+  .contact-row{
+    display:flex;align-items:center;justify-content:space-between;
+    border:1px solid var(--hairline);border-radius:10px;padding:14px 16px;
+    text-decoration:none;color:var(--paper);
+  }
+  .contact-row:hover{border-color:var(--mustard-dim);}
+  .contact-row .label{font-size:13px;color:var(--muted);font-family:var(--mono);}
+  .contact-row .value{font-size:14.5px;font-weight:600;margin-top:2px;}
+  .contact-row .arrow{color:var(--mustard);font-size:18px;}
+
+  footer{padding:28px 0;border-top:1px solid var(--hairline);}
+  .foot-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);flex-wrap:wrap;gap:10px;}
+
+  @media (max-width: 860px){
+    nav.links{display:none;}
+    .menu-btn{display:block;}
+    .hero-grid{grid-template-columns:1fr;}
+    .street{display:none;}
+    .case{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:1fr;}
+    .process{grid-template-columns:1fr 1fr;row-gap:26px;}
+    .process::before{display:none;}
+    .value-points{grid-template-columns:1fr;}
+    .value-box{padding:28px;}
+    .contact-box{grid-template-columns:1fr;padding:28px;}
+    .stat-strip{flex-wrap:wrap;row-gap:16px;}
+    .stat{flex:1 1 45%;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .open-dot{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none">
+        <rect x="2" y="10" width="28" height="18" rx="2" fill="#16233B" stroke="#F2B705" stroke-width="1.5"/>
+        <path d="M6 10V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4" stroke="#F2B705" stroke-width="1.5"/>
+        <circle cx="16" cy="19" r="3" fill="#F2B705"/>
+      </svg>
+      <span class="brand-word">developer<span>.nextdoor</span></span>
+    </a>
+    <nav class="links">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#value">Why us</a>
+    </nav>
+    <a class="nav-cta" href="#contact">Start a project</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" style="border-top:none;">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="sign">
+          <div class="sign-top">
+            <span class="eyebrow">Websites, built local</span>
+            <span class="open-tag"><span class="open-dot"></span>OPEN FOR PROJECTS</span>
+          </div>
+          <h1>Your business's website,<br><em>built next door.</em></h1>
+          <p class="lead">I design and build fast, affordable websites for small businesses — shops, clinics, CA firms, studios. No agency overhead, no six-month timelines. Just a site that works, live in days.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="#work">See the work →</a>
+            <a class="btn btn-ghost" href="#contact">Message on WhatsApp</a>
+          </div>
+          <div class="stat-strip">
+            <div class="stat"><b>7 days</b><span>Typical delivery</span></div>
+            <div class="stat"><b>₹3K+</b><span>Starting price</span></div>
+            <div class="stat"><b>1:1</b><span>Direct with the builder</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="street" aria-hidden="true">
+        <svg viewBox="0 0 420 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="420" height="380" fill="none"/>
+          <!-- ground -->
+          <rect x="0" y="330" width="420" height="50" fill="#0B1420"/>
+          <!-- shopfront building -->
+          <rect x="70" y="120" width="220" height="210" rx="4" fill="#16233B" stroke="#2A3B57"/>
+          <rect x="70" y="120" width="220" height="26" fill="#1C2C48"/>
+          <!-- door -->
+          <rect x="160" y="250" width="42" height="80" rx="2" fill="#0F1A2B" stroke="#2A3B57"/>
+          <!-- windows -->
+          <rect x="90" y="180" width="52" height="52" rx="3" fill="#0F1A2B" stroke="#F2B705" stroke-width="1.2"/>
+          <rect x="222" y="180" width="52" height="52" rx="3" fill="#0F1A2B" stroke="#F2B705" stroke-width="1.2"/>
+          <rect x="96" y="188" width="18" height="18" fill="#F2B705" opacity="0.55"/>
+          <rect x="228" y="188" width="18" height="18" fill="#59B98A" opacity="0.55"/>
+          <!-- hanging sign -->
+          <line x1="180" y1="120" x2="180" y2="104" stroke="#2A3B57"/>
+          <line x1="200" y1="120" x2="200" y2="104" stroke="#2A3B57"/>
+          <rect x="150" y="78" width="80" height="28" rx="4" fill="#0B1420" stroke="#F2B705" stroke-width="1.5"/>
+          <text x="190" y="97" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#F2B705">.nextdoor</text>
+          <!-- second smaller building left -->
+          <rect x="10" y="200" width="50" height="130" fill="#121D33" stroke="#2A3B57"/>
+          <rect x="20" y="220" width="14" height="14" fill="#F2B705" opacity="0.3"/>
+          <rect x="20" y="245" width="14" height="14" fill="#F2B705" opacity="0.2"/>
+          <!-- third building right -->
+          <rect x="320" y="170" width="60" height="160" fill="#121D33" stroke="#2A3B57"/>
+          <rect x="332" y="195" width="16" height="16" fill="#59B98A" opacity="0.3"/>
+          <rect x="360" y="195" width="16" height="16" fill="#59B98A" opacity="0.2"/>
+          <rect x="332" y="225" width="16" height="16" fill="#F2B705" opacity="0.25"/>
+          <!-- lamp post -->
+          <line x1="330" y1="330" x2="330" y2="260" stroke="#2A3B57" stroke-width="3"/>
+          <circle cx="330" cy="255" r="7" fill="#F2B705" opacity="0.8"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK / CASE STUDY -->
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Recent work</span>
+        <h2>A CA firm that needed to look as sharp as its work.</h2>
+        <p>CAPG & Co, a chartered accountancy practice in Kukatpally, Hyderabad, needed a site that made auditing, tax planning, and compliance feel approachable — and made it easy for new clients to reach out.</p>
+      </div>
+      <div class="case">
+        <div class="case-visual">
+          <div class="browser-bar">
+            <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
+            <span class="browser-url">capgandco.in</span>
+          </div>
+          <div class="mock-block mock-nav">
+            <div class="mock-pill" style="width:60px;background:#F2B705;opacity:.6;"></div>
+            <div class="mock-pill"></div><div class="mock-pill"></div><div class="mock-pill"></div>
+          </div>
+          <div class="mock-block mock-hero">
+            <div class="mock-line short" style="background:rgba(242,183,5,0.4);width:30%;"></div>
+            <div class="mock-line med"></div>
+            <div class="mock-line short"></div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card"></div><div class="mock-card"></div>
+            <div class="mock-card"></div><div class="mock-card"></div>
+          </div>
+        </div>
+        <div class="case-copy">
+          <span class="eyebrow">Case study</span>
+          <h3>CAPG & Co — Chartered Accountants</h3>
+          <p>Built a full business site covering services (audit, taxation, GST, MCA compliance, registrations), an about section, FAQs, and a dedicated contact page — plus domain registration and DNS setup, start to finish.</p>
+          <div class="case-tags">
+            <span class="tag">Business site</span>
+            <span class="tag">Domain + DNS setup</span>
+            <span class="tag">5+ pages</span>
+            <span class="tag">Contact & FAQ</span>
+          </div>
+          <a class="case-link" href="https://capgandco.in/" target="_blank" rel="noopener">Visit capgandco.in →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What I build</span>
+        <h2>Three ways to get online, none of them slow.</h2>
+        <p>Pick a starting point — every project is scoped and priced before work begins, no surprise invoices.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4z" stroke="#F2B705" stroke-width="1.6"/><path d="M4 9h16" stroke="#F2B705" stroke-width="1.6"/></svg>
+          </div>
+          <h3>Starter site</h3>
+          <p>A single, sharp page for shops, freelancers, and consultants who just need a professional presence and a way to be contacted.</p>
+          <div class="service-price">FROM ₹3,000 · LIVE IN 2–3 DAYS</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="16" stroke="#F2B705" stroke-width="1.6"/><rect x="14" y="4" width="7" height="7" stroke="#F2B705" stroke-width="1.6"/><rect x="14" y="14" width="7" height="6" stroke="#F2B705" stroke-width="1.6"/></svg>
+          </div>
+          <h3>Business site</h3>
+          <p>Multi-page site with galleries, maps, and a clear service breakdown — built for businesses ready to look established online.</p>
+          <div class="service-price">FROM ₹8,000 · LIVE IN 5–7 DAYS</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#F2B705" stroke-width="1.6"/><path d="M12 8v4l3 2" stroke="#F2B705" stroke-width="1.6"/></svg>
+          </div>
+          <h3>Care & maintenance</h3>
+          <p>Ongoing updates, backups, and small edits after launch, so your site keeps working without you thinking about it.</p>
+          <div class="service-price">FROM ₹500/MONTH</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>Four steps, one point of contact — me.</h2>
+      </div>
+      <div class="process">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Consult</h3>
+          <p>A quick chat about your business and what the site needs to do.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Draft</h3>
+          <p>A working preview built around your content, usually within a couple of days.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Refine</h3>
+          <p>Your feedback, folded in — revisions included in every package.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Launch</h3>
+          <p>Domain connected, site live, and login details handed to you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE / TRUST -->
+  <section id="value">
+    <div class="wrap">
+      <div class="value-box">
+        <div class="value-copy">
+          <span class="eyebrow">Why work with me</span>
+          <h2>Priced for your business, agreed before a line of code is written.</h2>
+          <p>Every project starts with a conversation, not a price list. I ask what your business actually needs, quote a fair number for it upfront, and we agree on it before any work begins — so there's no bill shock, and no paying for features you didn't ask for.</p>
+        </div>
+        <div class="value-points">
+          <div class="value-point">
+            <div class="value-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#F2B705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <h3>A quote before anything starts</h3>
+              <p>You'll know the exact cost before committing — not after.</p>
+            </div>
+          </div>
+          <div class="value-point">
+            <div class="value-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#F2B705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <h3>Built for small-business budgets</h3>
+              <p>Scoped to what your business needs now, not an inflated package.</p>
+            </div>
+          </div>
+          <div class="value-point">
+            <div class="value-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#F2B705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <h3>Revisions included, not billed separately</h3>
+              <p>You review the draft and ask for changes before final payment.</p>
+            </div>
+          </div>
+        </div>
+        <a class="btn btn-primary value-cta" href="#contact">Get a custom quote →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-box">
+        <div>
+          <span class="eyebrow">Get in touch</span>
+          <h2 style="margin-top:10px;">Tell me about your business — I'll send back a plan and a price.</h2>
+          <p style="margin-top:14px;font-size:14.5px;">Based in Hyderabad, working with businesses everywhere.</p>
+        </div>
+        <div class="contact-methods">
+          <a class="contact-row" href="https://instagram.com/developer.nextdoor" target="_blank" rel="noopener">
+            <span><span class="label">INSTAGRAM</span><br><span class="value">@developer.nextdoor</span></span>
+            <span class="arrow">↗</span>
+          </a>
+          <a class="contact-row" href="https://wa.me/910000000000" target="_blank" rel="noopener">
+            <span><span class="label">WHATSAPP</span><br><span class="value">Message directly</span></span>
+            <span class="arrow">↗</span>
+          </a>
+          <a class="contact-row" href="mailto:hello@developernextdoor.com">
+            <span><span class="label">EMAIL</span><br><span class="value">hello@developernextdoor.com</span></span>
+            <span class="arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>developer.nextdoor — websites for the shop down the street</span>
+    <span>Based in Hyderabad, Telangana</span>
+  </div>
+</footer>
+
+</body>
+</html>
