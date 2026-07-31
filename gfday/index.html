@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Girlfriend's Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6F1;
+    --blush:#FCE4E8;
+    --rose-deep:#C9184A;
+    --rose-mid:#FF6B81;
+    --rose-soft:#FFB3C1;
+    --teddy:#B8804B;
+    --teddy-dark:#96633A;
+    --ink:#5C3444;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    font-family:'Poppins',sans-serif;
+    background:
+      radial-gradient(circle at 15% 20%, var(--blush) 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, var(--rose-soft) 0%, transparent 45%),
+      var(--cream);
+    color:var(--ink);
+    overflow-x:hidden;
+    min-height:100%;
+  }
+  .stage{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:32px 20px;
+  }
+
+  /* falling roses & hearts */
+  .petal{
+    position:fixed;
+    top:-40px;
+    font-size:20px;
+    line-height:1;
+    opacity:0.6;
+    pointer-events:none;
+    animation: fall linear infinite;
+    filter: drop-shadow(0 2px 3px rgba(201,24,74,0.15));
+  }
+  @keyframes fall{
+    0%{ transform: translateY(0) rotate(0deg); }
+    100%{ transform: translateY(110vh) rotate(340deg); }
+  }
+
+  /* ---------- CREATE MODE ---------- */
+  .card{
+    background:#fff;
+    border-radius:28px;
+    padding:44px 36px 38px;
+    max-width:420px;
+    width:100%;
+    text-align:center;
+    box-shadow: 0 24px 60px -20px rgba(201,24,74,0.35);
+    position:relative;
+    z-index:2;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--rose-mid);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Dancing Script',cursive;
+    font-size:44px;
+    line-height:1.1;
+    margin:0 0 6px;
+    color:var(--rose-deep);
+  }
+  .sub{
+    font-size:14.5px;
+    color:#8a5a6b;
+    margin:0 0 26px;
+    font-weight:300;
+  }
+  input[type=text]{
+    width:100%;
+    padding:14px 16px;
+    border-radius:14px;
+    border:1.5px solid var(--rose-soft);
+    font-family:'Poppins',sans-serif;
+    font-size:15px;
+    outline:none;
+    margin-bottom:16px;
+    transition:border-color .2s;
+    background:var(--blush);
+    color:var(--ink);
+  }
+  input[type=text]:focus{ border-color:var(--rose-deep); }
+  input[type=text]::placeholder{ color:#c98ba0; }
+
+  button{
+    width:100%;
+    padding:14px 16px;
+    border:none;
+    border-radius:14px;
+    background:var(--rose-deep);
+    color:#fff;
+    font-family:'Poppins',sans-serif;
+    font-size:15px;
+    font-weight:500;
+    cursor:pointer;
+    transition:transform .15s, background .2s;
+  }
+  button:hover{ background:#a91240; transform:translateY(-1px); }
+  button:active{ transform:translateY(0); }
+
+  .share-box{
+    margin-top:18px;
+    display:none;
+    text-align:left;
+  }
+  .share-box.show{ display:block; }
+  .link-row{
+    display:flex;
+    gap:8px;
+    background:var(--blush);
+    padding:10px 12px;
+    border-radius:12px;
+    align-items:center;
+  }
+  .link-row span{
+    flex:1;
+    font-size:12.5px;
+    color:#8a5a6b;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .copy-btn{
+    width:auto;
+    padding:8px 14px;
+    font-size:12.5px;
+    border-radius:10px;
+    flex-shrink:0;
+  }
+  .hint{
+    font-size:12px;
+    color:#b98297;
+    margin-top:10px;
+    text-align:center;
+  }
+
+  /* teddy illustration */
+  .teddy-wrap{
+    width:150px;
+    margin:0 auto 18px;
+  }
+  .teddy-wrap svg{ width:100%; height:auto; display:block; }
+  .paw-rose{ transform-origin: 118px 150px; animation: wave 2.6s ease-in-out infinite; }
+  @keyframes wave{
+    0%,100%{ transform: rotate(0deg); }
+    50%{ transform: rotate(-6deg); }
+  }
+  .bloom{ transform-origin: center; animation: bloom 2s ease-out both; animation-delay:.3s; }
+  @keyframes bloom{
+    0%{ transform: scale(0.4); opacity:0; }
+    100%{ transform: scale(1); opacity:1; }
+  }
+
+  /* ---------- VIEW MODE ---------- */
+  .view-card{
+    text-align:center;
+    max-width:460px;
+    position:relative;
+    z-index:2;
+  }
+  .view-teddy{
+    width:200px;
+    margin:0 auto 6px;
+  }
+  .view-name{
+    font-family:'Dancing Script',cursive;
+    font-size:52px;
+    color:var(--rose-deep);
+    margin:6px 0 2px;
+    line-height:1.1;
+  }
+  .view-title{
+    font-family:'Dancing Script',cursive;
+    font-size:30px;
+    color:var(--rose-mid);
+    margin:0 0 4px;
+  }
+  .view-sub{
+    font-size:14px;
+    color:#8a5a6b;
+    font-weight:300;
+    margin-bottom:22px;
+  }
+  .make-own{
+    display:inline-block;
+    margin-top:8px;
+    font-size:12.5px;
+    color:var(--rose-deep);
+    text-decoration:none;
+    border-bottom:1px solid var(--rose-soft);
+    padding-bottom:1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage"></div>
+
+<script>
+const stage = document.getElementById('stage');
+const params = new URLSearchParams(window.location.search);
+const rawName = params.get('name');
+
+const teddySVG = (waving) => `
+<svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="110" cy="205" rx="55" ry="10" fill="#C9184A" opacity="0.08"/>
+  <!-- ears -->
+  <circle cx="70" cy="48" r="22" fill="var(--teddy, #B8804B)"/>
+  <circle cx="150" cy="48" r="22" fill="var(--teddy, #B8804B)"/>
+  <circle cx="70" cy="48" r="11" fill="#E8C9A8"/>
+  <circle cx="150" cy="48" r="11" fill="#E8C9A8"/>
+  <!-- head -->
+  <circle cx="110" cy="75" r="52" fill="#C99164"/>
+  <!-- muzzle -->
+  <ellipse cx="110" cy="90" rx="26" ry="20" fill="#EAD2B4"/>
+  <circle cx="110" cy="82" r="6" fill="#5C3444"/>
+  <path d="M110 88 Q110 96 100 96" stroke="#5C3444" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M92 100 Q110 112 128 100" stroke="#5C3444" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- eyes -->
+  <circle cx="90" cy="68" r="5" fill="#3E2723"/>
+  <circle cx="130" cy="68" r="5" fill="#3E2723"/>
+  <!-- cheeks -->
+  <circle cx="76" cy="86" r="7" fill="#FF9EB0" opacity="0.6"/>
+  <circle cx="144" cy="86" r="7" fill="#FF9EB0" opacity="0.6"/>
+  <!-- body -->
+  <ellipse cx="110" cy="168" rx="48" ry="42" fill="#C99164"/>
+  <ellipse cx="110" cy="172" rx="26" ry="24" fill="#EAD2B4"/>
+  <!-- bow -->
+  <path d="M110 128 L96 116 L96 140 Z" fill="#C9184A"/>
+  <path d="M110 128 L124 116 L124 140 Z" fill="#C9184A"/>
+  <circle cx="110" cy="128" r="6" fill="#A91240"/>
+  <!-- far arm -->
+  <ellipse cx="158" cy="160" rx="15" ry="26" fill="#B8804B" transform="rotate(20 158 160)"/>
+  <!-- near arm holding rose -->
+  <g class="${waving ? 'paw-rose' : ''}">
+    <ellipse cx="62" cy="158" rx="16" ry="27" fill="#B8804B" transform="rotate(-24 62 158)"/>
+    <!-- rose -->
+    <g class="bloom">
+      <line x1="45" y1="145" x2="35" y2="95" stroke="#4C7A3D" stroke-width="4"/>
+      <path d="M35 110 Q22 108 24 122 Q30 118 35 110" fill="#4C7A3D"/>
+      <circle cx="35" cy="90" r="13" fill="#E0325A"/>
+      <circle cx="35" cy="90" r="8.5" fill="#C9184A"/>
+      <circle cx="35" cy="90" r="4.5" fill="#A91240"/>
+    </g>
+  </g>
+</svg>`;
+
+function makePetals(n){
+  const symbols = ['🌹','💕','🌹','❤️','🌹','💗'];
+  for(let i=0;i<n;i++){
+    const p = document.createElement('div');
+    p.className='petal';
+    p.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    p.style.left = (Math.random()*100)+'vw';
+    p.style.fontSize = (14+Math.random()*14)+'px';
+    p.style.animationDuration = (6+Math.random()*6)+'s';
+    p.style.animationDelay = (Math.random()*8)+'s';
+    document.body.appendChild(p);
+  }
+}
+makePetals(22);
+
+function escapeName(n){
+  const div = document.createElement('div');
+  div.textContent = n;
+  return div.innerHTML;
+}
+
+if(rawName && rawName.trim().length>0){
+  const safe = escapeName(rawName.trim()).slice(0,40);
+  stage.innerHTML = `
+    <div class="view-card">
+      <div class="view-teddy">${teddySVG(true)}</div>
+      <div class="view-title">Happy Girlfriend's Day</div>
+      <div class="view-name">${safe} 💕</div>
+      <div class="view-sub">sent with love, just for you</div>
+      <a class="make-own" href="${window.location.pathname}">Make your own card →</a>
+    </div>
+  `;
+} else {
+  stage.innerHTML = `
+    <div class="card">
+      <div class="teddy-wrap">${teddySVG(true)}</div>
+      <div class="eyebrow">Girlfriend's Day</div>
+      <h1>Make her a card</h1>
+      <p class="sub">Type her name, get a link, send it — she opens it to a surprise.</p>
+      <input type="text" id="nameInput" placeholder="Her name" maxlength="40" />
+      <button id="createBtn">Create card 💌</button>
+      <div class="share-box" id="shareBox">
+        <div class="link-row">
+          <span id="linkText"></span>
+          <button class="copy-btn" id="copyBtn">Copy</button>
+        </div>
+        <div class="hint">Paste this in your DM, comment, or story ✨</div>
+      </div>
+    </div>
+  `;
+
+  const input = document.getElementById('nameInput');
+  const btn = document.getElementById('createBtn');
+  const shareBox = document.getElementById('shareBox');
+  const linkText = document.getElementById('linkText');
+  const copyBtn = document.getElementById('copyBtn');
+  let currentLink = '';
+
+  btn.addEventListener('click', () => {
+    const name = input.value.trim();
+    if(!name) { input.focus(); return; }
+    const url = new URL(window.location.href);
+    url.search = '';
+    url.searchParams.set('name', name);
+    currentLink = url.toString();
+    linkText.textContent = currentLink;
+    shareBox.classList.add('show');
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter') btn.click();
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    try{
+      await navigator.clipboard.writeText(currentLink);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(()=>{ copyBtn.textContent='Copy'; }, 1500);
+    }catch(e){
+      linkText.textContent = currentLink; // fallback, already selectable
+    }
+  });
+}
+</script>
+</body>
+</html>
