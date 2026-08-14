@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friendship Match Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F1FB;
+    --purple:#6C4AB6;
+    --purple-dark:#4E3390;
+    --orange:#FF8C42;
+    --yellow:#FFD23F;
+    --ink:#2D1B4E;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;min-height:100%;
+    font-family:'Poppins',sans-serif;
+    background:
+      radial-gradient(circle at 10% 10%, #E4DAFB 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, #FFE7C2 0%, transparent 40%),
+      var(--bg);
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  .stage{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+  }
+
+  /* background shapes: game-ish, not romantic */
+  .shape{
+    position:fixed; top:-40px; font-size:18px; opacity:0.5;
+    pointer-events:none; animation: fall linear infinite;
+  }
+  @keyframes fall{ 0%{transform:translateY(0) rotate(0deg);} 100%{transform:translateY(110vh) rotate(300deg);} }
+  .orb{
+    position:fixed; border-radius:50%; opacity:0.35; pointer-events:none;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp{
+    0%{ transform: translateY(0) scale(1); }
+    50%{ transform: translateY(-50vh) scale(1.15); }
+    100%{ transform: translateY(-105vh) scale(1); }
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:28px;
+    padding:34px 28px;
+    max-width:460px;
+    width:100%;
+    box-shadow: 0 20px 0 0 var(--purple-dark), 0 30px 60px -20px rgba(76,51,144,0.35);
+    border:3px solid var(--ink);
+    position:relative;
+    z-index:2;
+    text-align:center;
+  }
+  .badge{
+    display:inline-block;
+    background:var(--yellow);
+    color:var(--ink);
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:5px 12px;
+    border-radius:999px;
+    border:2px solid var(--ink);
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Baloo 2',cursive;
+    font-size:32px;
+    line-height:1.1;
+    margin:0 0 8px;
+    color:var(--purple);
+    font-weight:800;
+  }
+  .sub{ font-size:14px; color:#6b6280; margin:0 0 22px; font-weight:400; }
+
+  input[type=text]{
+    width:100%; padding:14px 16px; border-radius:14px;
+    border:2.5px solid var(--ink); font-family:'Poppins',sans-serif;
+    font-size:15px; outline:none; margin-bottom:14px;
+    background:#F8F6FF; color:var(--ink); font-weight:500;
+  }
+  input[type=text]:focus{ border-color:var(--purple); }
+
+  button.primary{
+    width:100%; padding:15px 16px; border-radius:14px;
+    background:var(--orange); color:#fff; font-family:'Baloo 2',cursive;
+    font-size:17px; font-weight:700; cursor:pointer;
+    border:3px solid var(--ink);
+    box-shadow: 0 5px 0 0 var(--ink);
+    transition:transform .1s, box-shadow .1s, opacity .2s;
+  }
+  button.primary:active{ transform:translateY(3px); box-shadow:0 2px 0 0 var(--ink); }
+  button.primary:disabled{ opacity:0.4; cursor:not-allowed; }
+
+  /* progress bar during quiz */
+  .progress-wrap{
+    display:flex; gap:5px; margin-bottom:18px;
+  }
+  .progress-seg{
+    flex:1; height:8px; border-radius:5px; background:#E9E4F7;
+    border:1.5px solid var(--ink); overflow:hidden;
+  }
+  .progress-seg.filled{ background:var(--purple); }
+
+  .q-count{
+    font-family:'Baloo 2',cursive; font-size:13px; color:var(--purple);
+    font-weight:700; margin-bottom:4px; text-align:left;
+  }
+  .q-block{ text-align:left; margin-bottom:20px; }
+  .q-text{ font-size:16px; font-weight:600; margin-bottom:10px; }
+  .opt{
+    display:block; width:100%; text-align:left;
+    padding:12px 14px; margin-bottom:8px; border-radius:12px;
+    border:2px solid var(--ink); background:#fff;
+    font-family:'Poppins',sans-serif; font-size:14px; font-weight:500; color:var(--ink);
+    cursor:pointer; transition:transform .1s, background .15s;
+  }
+  .opt:hover{ transform:translateX(2px); }
+  .opt.selected{ background:var(--yellow); }
+
+  .share-box{ margin-top:16px; text-align:left; }
+  .link-row{
+    display:flex; gap:8px; background:#F8F6FF;
+    padding:10px 12px; border-radius:12px; align-items:center;
+    border:2px solid var(--ink);
+  }
+  .link-row span{
+    flex:1; font-size:12px; color:var(--purple-dark); font-weight:500;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .copy-btn{
+    width:auto; padding:8px 14px; font-size:12.5px; border-radius:10px;
+    background:var(--purple); border:2px solid var(--ink); color:#fff; cursor:pointer; flex-shrink:0;
+    font-family:'Baloo 2',cursive; font-weight:700;
+  }
+  .hint{ font-size:12px; color:#948aa8; margin-top:10px; text-align:center; }
+
+  /* result screen: gauge + score */
+  .gauge-wrap{ position:relative; width:170px; height:170px; margin:6px auto 8px; }
+  .gauge-wrap svg{ width:100%; height:100%; transform:rotate(-90deg); }
+  .gauge-pct{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:'Baloo 2',cursive; font-size:40px; font-weight:800; color:var(--purple);
+  }
+  .result-tier{
+    display:inline-block;
+    font-family:'Baloo 2',cursive; font-size:20px; font-weight:700;
+    color:#fff; background:var(--orange);
+    padding:6px 18px; border-radius:999px; border:2px solid var(--ink);
+    margin:6px 0 14px;
+  }
+  .result-names{ font-size:14px; color:#6b6280; margin-bottom:18px; font-weight:500; }
+  .make-own{
+    display:inline-block; margin-top:6px; font-size:13px;
+    color:var(--purple); text-decoration:none; font-weight:600;
+    border-bottom:2px solid var(--yellow); padding-bottom:1px;
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage"></div>
+
+<script>
+const stage = document.getElementById('stage');
+
+const QUESTIONS = [
+  { q: "Ideal Friendship Day plan?", opts: ["Movie marathon", "Street food crawl", "Video call all day", "Random adventure"] },
+  { q: "In the friend group, you're known as...", opts: ["The Planner", "The Chaos Agent", "The Foodie", "The Quiet One"] },
+  { q: "Most likely to...", opts: ["Remember every inside joke", "Show up uninvited (in a good way)", "Be the emergency contact", "Send memes at 2am"] },
+  { q: "Perfect Friendship Day gift?", opts: ["Handwritten note", "Surprise visit", "Their favorite snack", "A meme dump"] },
+  { q: "After a small fight, you...", opts: ["Talk it out immediately", "Need space first", "Pretend nothing happened", "Send a meme to break the ice"] },
+  { q: "Your friendship's vibe is...", opts: ["Nostalgic & sentimental", "Fun & upbeat", "Chaotic energy", "Chill & comfortable"] }
+];
+
+const params = new URLSearchParams(window.location.search);
+const aParam = params.get('a');
+const nameAParam = params.get('name');
+const mode = aParam ? 'B' : 'A';
+
+function makeBg(){
+  const shapes = ['⚡','🏆','🎯','✨','⭐'];
+  for(let i=0;i<12;i++){
+    const s = document.createElement('div');
+    s.className='shape'; s.textContent = shapes[Math.floor(Math.random()*shapes.length)];
+    s.style.left=(Math.random()*100)+'vw';
+    s.style.fontSize=(14+Math.random()*10)+'px';
+    s.style.animationDuration=(6+Math.random()*6)+'s';
+    s.style.animationDelay=(Math.random()*8)+'s';
+    document.body.appendChild(s);
+  }
+  const colors = ['#FFD23F','#FF8C42','#6C4AB6'];
+  for(let i=0;i<8;i++){
+    const o = document.createElement('div');
+    o.className='orb';
+    const size = 10 + Math.random()*18;
+    o.style.width = size+'px';
+    o.style.height = size+'px';
+    o.style.background = colors[Math.floor(Math.random()*colors.length)];
+    o.style.left=(Math.random()*100)+'vw';
+    o.style.bottom = '-40px';
+    o.style.animationDuration=(12+Math.random()*10)+'s';
+    o.style.animationDelay=(Math.random()*10)+'s';
+    document.body.appendChild(o);
+  }
+}
+makeBg();
+
+function esc(n){
+  const div = document.createElement('div');
+  div.textContent = n;
+  return div.innerHTML;
+}
+
+function renderIntro(){
+  const introTitle = mode === 'B'
+    ? `${esc(nameAParam || 'Someone')} challenged you!`
+    : `Friendship Match Quiz`;
+  const introSub = mode === 'B'
+    ? `Answer the same 6 questions and find out your score.`
+    : `6 quick questions. Send the link. See your match %.`;
+
+  stage.innerHTML = `
+    <div class="card">
+      <div class="badge">Friendship Day Game</div>
+      <h1>${introTitle}</h1>
+      <p class="sub">${introSub}</p>
+      <input type="text" id="nameInput" placeholder="Your name" maxlength="20" />
+      <button class="primary" id="startBtn">Play now ⚡</button>
+    </div>
+  `;
+  document.getElementById('startBtn').addEventListener('click', () => {
+    const name = document.getElementById('nameInput').value.trim();
+    if(!name){ document.getElementById('nameInput').focus(); return; }
+    renderQuiz(name);
+  });
+  document.getElementById('nameInput').addEventListener('keydown', (e) => {
+    if(e.key === 'Enter') document.getElementById('startBtn').click();
+  });
+}
+
+function renderQuiz(myName){
+  const answers = new Array(QUESTIONS.length).fill(-1);
+  let current = 0;
+
+  function progressHtml(){
+    return `<div class="progress-wrap">${QUESTIONS.map((_,i)=>`<div class="progress-seg ${i<=current?'filled':''}"></div>`).join('')}</div>`;
+  }
+
+  function draw(){
+    const item = QUESTIONS[current];
+    stage.innerHTML = `
+      <div class="card">
+        ${progressHtml()}
+        <div class="q-count">QUESTION ${current+1} OF ${QUESTIONS.length}</div>
+        <div class="q-block">
+          <div class="q-text">${item.q}</div>
+          ${item.opts.map((opt, oi) => `
+            <div class="opt ${answers[current]===oi?'selected':''}" data-o="${oi}">${opt}</div>
+          `).join('')}
+        </div>
+        <button class="primary" id="nextBtn" ${answers[current]===-1?'disabled':''}>
+          ${current === QUESTIONS.length-1 ? (mode==='B' ? 'See our score →' : 'Get my link →') : 'Next →'}
+        </button>
+      </div>
+    `;
+
+    stage.querySelectorAll('.opt').forEach(el => {
+      el.addEventListener('click', () => {
+        answers[current] = parseInt(el.dataset.o, 10);
+        draw();
+      });
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if(current < QUESTIONS.length-1){
+        current++;
+        draw();
+      } else {
+        if(mode === 'A'){
+          renderShare(myName, answers);
+        } else {
+          const aAnswers = aParam.split(',').map(n => parseInt(n, 10));
+          renderResult(nameAParam || 'Friend', myName, aAnswers, answers);
+        }
+      }
+    });
+  }
+  draw();
+}
+
+function renderShare(name, answers){
+  const url = new URL(window.location.href);
+  url.search = '';
+  url.searchParams.set('name', name);
+  url.searchParams.set('a', answers.join(','));
+  const link = url.toString();
+
+  stage.innerHTML = `
+    <div class="card">
+      <div class="badge">Nice, ${esc(name)}!</div>
+      <h1>Send this to your friend</h1>
+      <p class="sub">They'll play the same 6 questions and you'll both see your score.</p>
+      <div class="share-box">
+        <div class="link-row">
+          <span id="linkText">${link}</span>
+          <button class="copy-btn" id="copyBtn">Copy</button>
+        </div>
+        <div class="hint">Paste this in your DM, comment, or story ✨</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    try{
+      await navigator.clipboard.writeText(link);
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied!';
+      setTimeout(()=>{ btn.textContent='Copy'; }, 1500);
+    }catch(e){}
+  });
+}
+
+function renderResult(nameA, nameB, answersA, answersB){
+  let matches = 0;
+  for(let i=0;i<QUESTIONS.length;i++){
+    if(answersA[i] === answersB[i]) matches++;
+  }
+  const pct = Math.round((matches / QUESTIONS.length) * 100);
+
+  let tier;
+  if(pct >= 90) tier = "Soulmates, fr 💫";
+  else if(pct >= 70) tier = "Ride or die 🧡";
+  else if(pct >= 50) tier = "Good vibes only ✨";
+  else tier = "Opposites attract 😄";
+
+  const circumference = 2 * Math.PI * 70;
+
+  stage.innerHTML = `
+    <div class="card">
+      <div class="badge">Results are in</div>
+      <div class="gauge-wrap">
+        <svg viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="70" fill="none" stroke="#E9E4F7" stroke-width="14"/>
+          <circle id="gaugeCircle" cx="80" cy="80" r="70" fill="none" stroke="#FF8C42" stroke-width="14"
+            stroke-linecap="round"
+            stroke-dasharray="${circumference}"
+            stroke-dashoffset="${circumference}"/>
+        </svg>
+        <div class="gauge-pct" id="pctText">0%</div>
+      </div>
+      <div class="result-tier">${tier}</div>
+      <div class="result-names">${esc(nameA)} &amp; ${esc(nameB)}</div>
+      <a class="make-own" href="${window.location.pathname}">Start your own quiz →</a>
+    </div>
+  `;
+
+  // animate gauge + counting percentage
+  const circle = document.getElementById('gaugeCircle');
+  const pctText = document.getElementById('pctText');
+  const target = pct;
+  const duration = 900;
+  const start = performance.now();
+
+  function tick(now){
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const current = Math.round(eased * target);
+    pctText.textContent = current + '%';
+    const offset = circumference - (eased * target / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+    if(t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+renderIntro();
+</script>
+</body>
+</html>
