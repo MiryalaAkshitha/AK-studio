@@ -1,22 +1,39 @@
-# CODING AGENTS: READ THIS FIRST
+# AK Studio — theakstudio.in
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+The studio website, built with React + Vite.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Editing the site
 
-## What you should do — IMPORTANT
+**Almost every change happens in one file: [`src/content.js`](src/content.js).**
 
-**Read `Ak studio-studio-website-revamp/project/Ak studio Studio.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+- Change any text → edit it in `content.js`
+- Add a new client → copy one block in the `clients` list and change the values
+- Mark a project finished → set `inProgress: false`
+- Change a colour → edit the variables at the top of [`src/styles.css`](src/styles.css)
+- Swap an image → replace the file in `public/assets/` (keep the same name)
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Running it on your computer
 
-## About the design files
+```bash
+npm install      # first time only
+npm run dev      # opens a live preview at http://localhost:5173
+```
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+The preview updates instantly as you save files.
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+## Publishing
 
-## Bundle contents
+Push to `master` — GitHub Actions builds the site and publishes it to GitHub Pages automatically
+(see the **Actions** tab on GitHub to watch it). Takes about a minute.
 
-- `Ak studio-studio-website-revamp/README.md` — this file
-- `Ak studio-studio-website-revamp/project/` — the `Ak studio Studio website revamp` project files (HTML prototypes, assets, components)
+## Folder layout
+
+```
+src/content.js        ← all the words on the site
+src/styles.css        ← colours, fonts, layout
+src/components/       ← one file per section of the page
+public/               ← copied to the site as-is
+  CNAME               ← keeps the theakstudio.in domain — don't delete
+  assets/             ← logo, favicon, hero image, PDFs
+  privacy.html, terms.html, gfday/, friendshipDay/, uploads/
+```
