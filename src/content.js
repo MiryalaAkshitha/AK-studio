@@ -76,9 +76,9 @@ export const clients = [
     url: 'https://tonguetotail.in/',
     domain: 'tonguetotail.in',
     icon: 'paw',
-    inProgress: true,
-    description: 'A Shopify storefront for a dog supplements brand — store and account set up from scratch, product catalogue, and checkout configured so they can sell online, with the domain connected end to end.',
-    tags: ['Shopify store', 'Domain + DNS setup', 'E-commerce'],
+    inProgress: false,
+    description: 'A Shopify storefront for a dog supplements brand — store and account set up from scratch, product catalogue, and checkout configured so they can sell online, with the domain connected end to end and basic SEO in place.',
+    tags: ['Shopify store', 'Domain + DNS setup', 'E-commerce', 'Basic SEO'],
   },
 ];
 
