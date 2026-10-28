@@ -33,7 +33,7 @@ export const work = {
 };
 
 // To add a new client, copy one block below and change the values.
-// icon: one of 'calculator' | 'megaphone' | 'bricks' | 'people' | 'paw' | 'star'
+// icon: one of 'calculator' | 'megaphone' | 'bricks' | 'people' | 'paw' | 'speaker' | 'star'
 export const clients = [
   {
     name: 'CAPG & Co — Chartered Accountants',
@@ -79,6 +79,15 @@ export const clients = [
     inProgress: false,
     description: 'A Shopify storefront for a dog supplements brand — store and account set up from scratch, product catalogue, and checkout configured so they can sell online, with the domain connected end to end and basic SEO in place.',
     tags: ['Shopify store', 'Domain + DNS setup', 'E-commerce', 'Basic SEO'],
+  },
+  {
+    name: 'Renuka Electronics — Audio-Visual Solutions',
+    url: 'https://renukaelectronics.in/',
+    domain: 'renukaelectronics.in',
+    icon: 'speaker',
+    inProgress: false,
+    description: 'A polished showcase site for an audio-visual solutions provider — projectors, pro audio, digital classrooms, home theatres, and conference rooms, organised by space, with an experience-centre section, client logos, and WhatsApp quote requests built in. Designed, developed, and hosted end to end.',
+    tags: ['Design', 'Development', 'Hosting', 'WhatsApp quotes'],
   },
 ];
 
