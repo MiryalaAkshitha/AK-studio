@@ -86,8 +86,8 @@ export const clients = [
     domain: 'renukaelectronics.in',
     icon: 'speaker',
     inProgress: false,
-    description: 'A polished showcase site for an audio-visual solutions provider — projectors, pro audio, digital classrooms, home theatres, and conference rooms, organised by space, with an experience-centre section, client logos, and WhatsApp quote requests built in. Designed, developed, and hosted end to end.',
-    tags: ['Design', 'Development', 'Hosting', 'WhatsApp quotes'],
+    description: 'A polished showcase site for an audio-visual solutions provider — projectors, pro audio, digital classrooms, home theatres, and conference rooms, organised by space, with an experience-centre section and client logos. Designed, developed, and hosted end to end.',
+    tags: ['Design', 'Development', 'Hosting'],
   },
 ];
 
